@@ -39,6 +39,8 @@ exports.addBook = async (req, res) => {
       book.quantity
     ]);
 
+    book.price = Number(book.price);
+
     res.status(201)
       .location(`/books/${book.ISBN}`)
       .json(book);
@@ -62,6 +64,8 @@ exports.getBookByISBN = async (req, res) => {
       if (rows.length === 0) {
         return res.status(404).json({ message: 'Book not found.' });
       }
+
+      rows[0].price = Number(rows[0].price);
   
       res.status(200).json(rows[0]);
     } catch (err) {
@@ -114,6 +118,8 @@ exports.updateBook = async (req, res) => {
         book.quantity,
         isbn
       ]);
+
+      book.price = Number(book.price);
   
       // 返回更新后的数据（这里直接返回请求体内容，或者重新查询后返回都可以）
       res.status(200).json(book);

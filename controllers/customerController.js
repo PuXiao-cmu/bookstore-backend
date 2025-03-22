@@ -83,11 +83,15 @@ exports.getCustomerById = async (req, res) => {
 
 exports.getCustomerByUserId = async (req, res) => {
     const userId = req.query.userId;
-  
+
     if (!userId) {
       return res.status(400).json({ message: 'Missing userId query parameter.' });
     }
-  
+
+    if (!isValidEmail(userId)) {
+      return res.status(400).json({ message: 'Invalid email format.' });
+    }
+
     try {
       const [rows] = await db.query('SELECT * FROM Customers WHERE userId = ?', [userId]);
   
